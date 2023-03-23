@@ -4,13 +4,14 @@ const BASE_URL = "https://api.themoviedb.org/3";
 const TMDB_ACCESS_TOKEN = import.meta.env.VITE_APP_TMDB_ACCESS_TOKEN;
 
 const headers = {
-  Authorization: "Bearer " + TMDB_ACCESS_TOKEN,
+  Authorization: `Bearer ${TMDB_ACCESS_TOKEN}`,
 };
 
-export const fetchData = async (url, params) => {
-  const full_url = BASE_URL + url;
+export const fetchData = async (endPoint, params) => {
+  const full_url = BASE_URL + endPoint;
+
   try {
-    const { data } = axios.get(full_url, {
+    const { data } = await axios.get(full_url, {
       headers,
       params,
     });
