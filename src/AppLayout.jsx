@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { Outlet } from "react-router-dom";
 
 import { fetchData } from "./utils/tmdb-api-call";
 
@@ -7,10 +8,10 @@ import Footer from "./components/Footer";
 import Home from "./pages/home/Home";
 import Details from "./pages/Details";
 import Explore from "./pages/Explore";
-import PageNotFound from "./pages/PageNotFound";
 import SearchResult from "./pages/SearchResult";
 
-import "./App.module.css";
+import "./AppLayout.module.css";
+
 
 function App() {
   useEffect(() => {
@@ -23,7 +24,12 @@ function App() {
     });
   };
 
-  return <div className="App">App</div>;
+  return <>
+    <Header />
+    <div className="App">App</div>
+    <Outlet />
+    <Footer />
+  </>
 }
 
 export default App;

@@ -23,7 +23,8 @@
   box-sizing: border-box;
 }
 body {
-  background-color: var(--black);
+  /* background-color: var(--black); */
+  background-color: var(--black-light);
 }
 ::-webkit-scrollbar {
   display: none;
