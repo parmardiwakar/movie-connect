@@ -1,12 +1,12 @@
 import React from "react";
 
-import HeroBanner from "./heroBanner/HeroBanner";
+import HeroSection from "./heroSection/HeroSection";
 
 import classes from './Home.module.css';
 
 const Home = () => {
   return <div className="homePage">
-    <HeroBanner />
+    <HeroSection />
   </div>;
 };
 

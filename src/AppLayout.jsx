@@ -6,30 +6,33 @@ import { fetchData } from "./utils/tmdb-api-call";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Home from "./pages/home/Home";
-import Details from "./pages/Details";
-import Explore from "./pages/Explore";
-import SearchResult from "./pages/SearchResult";
 
 import "./AppLayout.module.css";
 
-
 function App() {
-  useEffect(() => {
-    getPopularMovies();
-  }, []);
+  // useEffect(() => {
+  //   getPopularMovies();
+  // }, []);
 
-  const getPopularMovies = () => {
-    fetchData("/movie/popular").then((res) => {
-      console.log(res);
-    });
-  };
+  // const getPopularMovies = () => {
+  //   fetchData("/movie/popular").then((res) => {
+  //     console.log(res);
+  //   });
+  // };
 
-  return <>
-    <Header />
-    <div className="App">App</div>
-    <Outlet />
-    <Footer />
-  </>
+  return (
+    <>
+      <header>
+        <Header />
+      </header>
+      <main>
+        <Outlet />
+      </main>
+      <footer>
+        <Footer />
+      </footer>
+    </>
+  );
 }
 
 export default App;
