@@ -9,12 +9,17 @@ import { fetchData } from "./utils/tmdb-api-call";
 import { useEffect, useState } from "react";
 
 function App() {
+  const abortController = new AbortController();
   const [baseUrl, setBaseUrl] = useState("");
 
   useEffect(() => {
-    const { data } = fetchData("/configuration").then(res => {
+    const { data } = fetchData("/configuration", abortController).then(res => {
       setBaseUrl(res?.images.base_url);
     })
+
+    return () => {
+      abortController.abort();
+  };
   }, []);
 
     

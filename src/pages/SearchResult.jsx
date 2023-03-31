@@ -8,29 +8,53 @@ import classes from "./SearchResult.module.css";
 const SearchResult = () => {
   const { query } = useParams();
 
-  const [fetchedQueryData, setFetchedQueryData] = useState(null);
+  const abortController = new AbortController();
+
+  const [fetchedQueryData, setFetchedQueryData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [pageNum, setPageNum] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
 
   useEffect(() => {
-    const url = `/search/multi?query=${query}&page=1&include_adult=false`;
+    const url = `/search/multi?query=${query}&page=${pageNum}&include_adult=false`;
 
-    const fetchMulti = () => {
-      fetchData(url).then((res) => {
-        setIsLoading(false);
-        setFetchedQueryData(res);
-      });
+    const fetchResults = () => {
+      if (hasMore) {
+        fetchData(url, abortController).then((res) => {
+          setIsLoading(false);
+          setHasMore(res.page !== res.total_pages);
+          setFetchedQueryData([...fetchedQueryData, ...res.results]);
+        });
+      }
     };
+    fetchResults();
 
-    fetchMulti();
-  }, []);
+    return () => {
+      abortController.abort();
+    };
+  }, [pageNum]);
+
+  const loadMoreData = () => {
+    if (hasMore) {
+      setPageNum((prev) => prev + 1);
+    }
+  };
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
 
   return (
-    <ul>
-      {!isLoading &&
-        fetchedQueryData?.results.map((result) => (
-          <MovieCard key={result.id} data={result} />
-        ))}
-    </ul>
+    <main>
+      <div>
+        {!isLoading &&
+          fetchedQueryData.map((result) => (
+            <MovieCard key={result.id} data={result} />
+          ))}
+      </div>
+      {hasMore && <button onClick={loadMoreData}>Load More</button>}
+      {!hasMore && <p style={{ color: "red" }}>Search Complete!</p>}
+    </main>
   );
 };
 

@@ -7,12 +7,13 @@ const headers = {
   Authorization: `Bearer ${TMDB_ACCESS_TOKEN}`,
 };
 
-export const fetchData = async (endPoint, params) => {
+export const fetchData = async (endPoint, abortController, params) => {
   const full_url = BASE_URL + endPoint;
 
   try {
     const { data } = await axios.get(full_url, {
       headers,
+      signal: abortController.signal,
       params,
     });
 
